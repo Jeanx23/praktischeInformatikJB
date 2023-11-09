@@ -66,9 +66,9 @@ namespace sportapiwrapper.InternalLogic
 
             return sportTypes;
         }
-        public static List<MatchData>? GetAvailableMatchDayData(out ReturnStatus statusCode)
+        public static List<MatchData>? GetAvailableMatchDayData(string league, string year, string matchday, out ReturnStatus statusCode)
         {
-            HttpResponseMessage response = ApiRequest.RequestMatchDayData();
+            HttpResponseMessage response = ApiRequest.RequestMatchDayData(league, year, matchday);
             statusCode = (ReturnStatus)response.StatusCode;
 
             if (response.StatusCode != HttpStatusCode.OK) { return null; }
@@ -89,12 +89,12 @@ namespace sportapiwrapper.InternalLogic
             {
                 statusCode = ReturnStatus.ParseError;
             }
-
+          
             return matchDayData;
         }
-        public static List<MatchData>? GetTwoClubsMatchHistory(out ReturnStatus statusCode)
+        public static List<MatchData>? GetTwoClubsMatchHistory(string team1, string team2,out ReturnStatus statusCode)
         {
-            HttpResponseMessage response = ApiRequest.RequestTwoClubsMatchHistory();
+            HttpResponseMessage response = ApiRequest.RequestTwoClubsMatchHistory(team1, team2);
             statusCode = (ReturnStatus)response.StatusCode;
 
             if (response.StatusCode != HttpStatusCode.OK) { return null; }
@@ -146,7 +146,7 @@ namespace sportapiwrapper.InternalLogic
         }
         public static List<Team>? GetAvailableTeams(string league, string year, out ReturnStatus statusCode)
         {
-            HttpResponseMessage response = ApiRequest.RequestTable(league, year);
+            HttpResponseMessage response = ApiRequest.RequestAvailableTeams(league, year);
             statusCode = (ReturnStatus)response.StatusCode;
 
             if (response.StatusCode != HttpStatusCode.OK) { return null; }

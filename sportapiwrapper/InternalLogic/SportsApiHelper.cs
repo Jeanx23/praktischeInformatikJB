@@ -1,4 +1,6 @@
-﻿using Newtonsoft.Json.Linq;
+﻿using Newtonsoft.Json;
+using Newtonsoft.Json.Linq;
+using sportapiwrapper.Enums;
 using sportapiwrapper.Exceptions;
 using sportapiwrapper.models;
 using sportapiwrapper.Models;
@@ -7,6 +9,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Xml.Linq;
 
 namespace sportapiwrapper.InternalLogic
 {
@@ -18,7 +21,7 @@ namespace sportapiwrapper.InternalLogic
             
             if (info.Count == 0)
             {
-                throw new CannotCreateModelException("Missing ´Data");
+                throw new CannotCreateModelException("Missing Data");
             }
 
             foreach (JObject jObject in info)
@@ -35,7 +38,7 @@ namespace sportapiwrapper.InternalLogic
 
             if (info.Count == 0)
             {
-                throw new CannotCreateModelException("Missing ´Data");
+                throw new CannotCreateModelException("Missing Data");
             }
 
             foreach (JObject jObject in info)
@@ -52,7 +55,7 @@ namespace sportapiwrapper.InternalLogic
 
             if (info.Count == 0)
             {
-                throw new CannotCreateModelException("Missing ´Data");
+                throw new CannotCreateModelException("Missing Data");
             }
 
             foreach (JObject jObject in info)
@@ -62,14 +65,14 @@ namespace sportapiwrapper.InternalLogic
 
             return matchDayData;
         }
-
+       
         internal static List<MatchData>? ParseMatchHistory(JArray info)
         {
             List<MatchData> matchHistory = new List<MatchData>();
 
             if (info.Count == 0)
             {
-                throw new CannotCreateModelException("Missing ´Data");
+                throw new CannotCreateModelException("Missing Data");
             }
 
             foreach (JObject jObject in info)
@@ -86,7 +89,7 @@ namespace sportapiwrapper.InternalLogic
 
             if (info.Count == 0)
             {
-                throw new CannotCreateModelException("Missing ´Data");
+                throw new CannotCreateModelException("Missing Data");
             }
 
             foreach (JObject jObject in info)
@@ -103,7 +106,7 @@ namespace sportapiwrapper.InternalLogic
 
             if (info.Count == 0)
             {
-                throw new CannotCreateModelException("Missing ´Data");
+                throw new CannotCreateModelException("Missing Data");
             }
 
             foreach (JObject jObject in info)
@@ -120,7 +123,7 @@ namespace sportapiwrapper.InternalLogic
 
             if (info.Count == 0)
             {
-                throw new CannotCreateModelException("Missing ´Data");
+                throw new CannotCreateModelException("Missing Data");
             }
 
             foreach (JObject jObject in info)

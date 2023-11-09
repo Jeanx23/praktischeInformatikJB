@@ -18,6 +18,7 @@ namespace SportApiWrapperTests
             var leagues = SportsApi.GetAvailableLeagues(out status);
             Assert.Pass();
         }
+
         [Test]
         public void GetAvailableSportsTest()
         {
@@ -25,13 +26,18 @@ namespace SportApiWrapperTests
             var sportTypes = SportsApi.GetAvailableSports(out status);
             Assert.Pass();
         }
+
         [Test]
-        public void GetAvailableMatchDataTest()
+        public void GetAvailableMatchDayDataTest()
         {
+            string league = "bl1";
+            string year = "2018";
+            string matchday = "1";
             ReturnStatus status;
-            var matchData = SportsApi.GetAvailableMatchDayData(out status);
+            var matchData = SportsApi.GetAvailableMatchDayData(league, year, matchday, out status);
             Assert.Pass();
         }
+
         [Test]
         public void GetLeagueTableTest()
         {
@@ -41,6 +47,7 @@ namespace SportApiWrapperTests
             var leagueTable = SportsApi.GetLeagueTable(league, year, out status);
             Assert.Pass();
         }
+
         [Test]
         public void GetAvailableTeamsTest()
         {
@@ -50,6 +57,7 @@ namespace SportApiWrapperTests
             var leagueTable = SportsApi.GetAvailableTeams(league, year, out status);
             Assert.Pass();
         }
+
         [Test]
         public void GetGoalGettersTest()
         {
@@ -57,6 +65,16 @@ namespace SportApiWrapperTests
             string year = "2022";
             ReturnStatus status;
             var goalGetters = SportsApi.GetGoalGetters(league, year, out status);
+            Assert.Pass();
+        }
+
+        [Test]
+        public void GetTwoClubsMatchHistoryTest()
+        {
+            string team1 = "6";
+            string team2 = "40";
+            ReturnStatus status;
+            var twoclubsHistory = SportsApi.GetTwoClubsMatchHistory(team1, team2, out status);
             Assert.Pass();
         }
     }

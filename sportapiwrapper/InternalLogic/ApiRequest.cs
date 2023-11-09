@@ -1,4 +1,5 @@
-﻿using System;
+﻿using sportapiwrapper.models;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Net;
@@ -23,16 +24,16 @@ namespace sportapiwrapper.InternalLogic
             string request = ApiURL + "/getavailablesports";
             return _webClient.GetAsync(request).Result;
         }
-        // /getmatchdata/{leagueShortcut}/{leagueSeason}/{groupOrderId}
-        internal static HttpResponseMessage RequestMatchDayData()                                                   // gibt alle Relevanten Daten eines Spieltags zurück
+        // /getmatchdaydata/{leagueShortcut}/{leagueSeason}/{groupOrderId}
+        internal static HttpResponseMessage RequestMatchDayData(string league, string year, string matchday)        // gibt alle Relevanten Daten eines Spieltags zurück
         {
-            string request = ApiURL + "/getmatchdata/bl1/2023/4";
+            string request = ApiURL + "/getmatchdata/" + league + "/" + year + "/" + matchday;
             return _webClient.GetAsync(request).Result;
         }
         // /getmatchdata/{teamId1}/{teamId2}
-        internal static HttpResponseMessage RequestTwoClubsMatchHistory()
+        internal static HttpResponseMessage RequestTwoClubsMatchHistory(string team1, string team2)
         {
-            string request = ApiURL + "/getmatchdata/40/118/"; //40 und 118 durch Variablen ersetzen                // gibt die Ergebnisse vergangener Duelle zweier Teams zurück
+            string request = ApiURL + "/getmatchdata/" + team1 + "/" + team2;                                       // gibt die Ergebnisse vergangener Duelle zweier Teams zurück
             return _webClient.GetAsync(request).Result;
         }
         internal static HttpResponseMessage RequestTable(string league, string year)                                // eine Request die die Tabelle einer Saison zurück gibt

@@ -22,7 +22,7 @@ namespace sportapiwrapper.Models
         string? GoalGetterName { get; }
 
         public Goal(JToken info) 
-        {
+        {           
             GoalID = info["goalID"]?.ToObject<int>();
             ScoreTeam1 = info["scoreTeam1"]?.ToObject<int>();
             ScoreTeam2 = info["scoreTeam2"]?.ToObject<int>();
@@ -32,7 +32,7 @@ namespace sportapiwrapper.Models
             IsOwnGoal = info["isOwnGoal"]?.ToObject<bool>();
             IsOvertime = info["isOvertime"]?.ToObject<bool>();
             Comment = info["comment"]?.ToObject<string>();
-            GoalGetterName = info["goalGetterName"]?.ToObject<string>();
+            GoalGetterName = info["goalGetterName"]?.ToObject<string>();             
         }
 
     }
