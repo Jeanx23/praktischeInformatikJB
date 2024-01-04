@@ -10,11 +10,11 @@ namespace sportapiwrapper.models
 {
     public class League
     {
-        int? LeagueID {  get; }
-        string? LeagueName { get; }
-        string? LeagueShortcut { get; }
-        string? LeagueSeason { get; }
-        Sport? Sport { get; }
+        public int? LeagueID {  get; }
+        public string? LeagueName { get; }
+        public string? LeagueShortcut { get; }
+        public string? LeagueSeason { get; }
+        public Sport? Sport { get; }
 
         /* 
         "leagueId": 3,

@@ -10,13 +10,13 @@ namespace sportapiwrapper.Models
 {
     public class MatchResult
     {
-        int? ResultID { get; }
-        int? PointsTeam1 { get; }
-        int? PointsTeam2 { get; }
-        int? ResultOrderID { get; }
-        int? ResultTypeID { get; }
-        string? ResultName { get; }
-        string? ResultDescription { get; }
+        public int? ResultID { get; }
+        public int? PointsTeam1 { get; }
+        public int? PointsTeam2 { get; }
+        public int? ResultOrderID { get; }
+        public int? ResultTypeID { get; }
+        public string? ResultName { get; }
+        public string? ResultDescription { get; }
         public MatchResult(JToken info)
         {
           

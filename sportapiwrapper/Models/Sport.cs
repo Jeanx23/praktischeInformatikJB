@@ -9,8 +9,8 @@ namespace sportapiwrapper.models
 {
     public class Sport
     {
-        int? SportID { get; }
-        string? SportName { get; }
+        public int? SportID { get; }
+        public string? SportName { get; }
 
         /*  
         "sportId": 0,

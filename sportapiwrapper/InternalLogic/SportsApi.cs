@@ -8,6 +8,7 @@ using Newtonsoft.Json.Linq;
 using System.Net;
 using sportapiwrapper.Enums;
 using sportapiwrapper.Models;
+using System.Text.RegularExpressions;
 
 namespace sportapiwrapper.InternalLogic
 
@@ -16,6 +17,9 @@ namespace sportapiwrapper.InternalLogic
     {
         public static List<League>? GetAvailableLeagues(out ReturnStatus statusCode)
         {
+            //string year = DateTime.Now.Year.ToString();
+            string year = "2023";
+
             HttpResponseMessage response = ApiRequest.RequestAvailableLeagues();
             statusCode = (ReturnStatus)response.StatusCode;
 
@@ -28,6 +32,7 @@ namespace sportapiwrapper.InternalLogic
             JArray jsonArray = JArray.Parse(responseString);
 
             List<League>? leagues = null;
+            
 
             try
             {
@@ -38,7 +43,9 @@ namespace sportapiwrapper.InternalLogic
                 statusCode = ReturnStatus.ParseError;
             }
 
-            return leagues;
+            List<League> filteredLeagues = leagues.Where(league => league.LeagueShortcut == "bl1" && league.LeagueSeason == year).ToList(); // die Ligen filtern, da es außer der Bundesliga wenig Daten zu den anderen Ligen gibt.
+
+            return filteredLeagues;
         }
         public static List<Sport>? GetAvailableSports(out ReturnStatus statusCode)
         {
@@ -90,6 +97,32 @@ namespace sportapiwrapper.InternalLogic
                 statusCode = ReturnStatus.ParseError;
             }
           
+            return matchDayData;
+        }
+        public static List<MatchData>? GetAllAvailableMatchDayData(string league, string year, out ReturnStatus statusCode)
+        {
+            HttpResponseMessage response = ApiRequest.RequestAllMatchDayData(league, year);
+            statusCode = (ReturnStatus)response.StatusCode;
+
+            if (response.StatusCode != HttpStatusCode.OK) { return null; }
+
+            Stream receiveStream = response.Content.ReadAsStream();
+            StreamReader readStream = new StreamReader(receiveStream, Encoding.UTF8);
+            string responseString = readStream.ReadToEnd();
+
+            JArray jsonArray = JArray.Parse(responseString);
+
+            List<MatchData>? matchDayData = null;
+
+            try
+            {
+                matchDayData = SportsApiHelper.ParseMatchDayData(jsonArray);
+            }
+            catch
+            {
+                statusCode = ReturnStatus.ParseError;
+            }
+
             return matchDayData;
         }
         public static List<MatchData>? GetTwoClubsMatchHistory(string team1, string team2,out ReturnStatus statusCode)

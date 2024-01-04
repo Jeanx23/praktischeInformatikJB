@@ -30,6 +30,11 @@ namespace sportapiwrapper.InternalLogic
             string request = ApiURL + "/getmatchdata/" + league + "/" + year + "/" + matchday;
             return _webClient.GetAsync(request).Result;
         }
+        internal static HttpResponseMessage RequestAllMatchDayData(string league, string year)                      // gibt alle Relevanten Daten aller Spieltage einer Saison zurück
+        {
+            string request = ApiURL + "/getmatchdata/" + league + "/" + year;
+            return _webClient.GetAsync(request).Result;
+        }
         // /getmatchdata/{teamId1}/{teamId2}
         internal static HttpResponseMessage RequestTwoClubsMatchHistory(string team1, string team2)
         {

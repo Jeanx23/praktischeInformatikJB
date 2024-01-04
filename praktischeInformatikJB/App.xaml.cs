@@ -1,4 +1,8 @@
-﻿using System;
+﻿using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Hosting;
+using praktischeInformatikJB.ViewModels;
+using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Configuration;
 using System.Data;
@@ -12,6 +16,6 @@ namespace praktischeInformatikJB
     /// Interaction logic for App.xaml
     /// </summary>
     public partial class App : Application
-    {
+    {        
     }
 }

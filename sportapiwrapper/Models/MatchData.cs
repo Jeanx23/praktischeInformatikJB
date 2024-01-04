@@ -1,52 +1,62 @@
-﻿using Newtonsoft.Json;
-using Newtonsoft.Json.Linq;
-using sportapiwrapper.Enums;
-using sportapiwrapper.InternalLogic;
+﻿using Newtonsoft.Json.Linq;
+using System.Globalization;
 using sportapiwrapper.Models;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Net;
-using System.Text;
-using System.Text.Json.Nodes;
-using System.Text.RegularExpressions;
-using System.Threading.Tasks;
 
 namespace sportapiwrapper.models
 {
     public class MatchData
     {
-        int? MatchID { get; }
-        int? LeagueID { get; }
-        int? LeagueSeason { get; }
-        int? NumberOfViewers { get; }
-        string? MatchDateTime { get; }
-        string? TimeZoneID { get; }
-        string? LeagueShortcut { get; }
-        string? MatchDateTimeUTC { get; }
-        string? LastUpdateDateTime { get; }
-        string? LeagueName { get; }
-        bool? MatchIsFinished { get; }
-        IGroup? Group { get; }
-        Team? Team1 { get; }
-        Team? Team2 { get; }
-        List<MatchResult>? MatchResults { get; }
-        List<Goal>? Goals { get; }
+        public int? MatchID { get; }
+        public int? LeagueID { get; }
+        public int? LeagueSeason { get; }
+        public int? NumberOfViewers { get; }
+        public DateTime? MatchDateTime { get; }
+        public string? TimeZoneID { get; }
+        public string? LeagueShortcut { get; }
+        public DateTime? MatchDateTimeUTC { get; }
+        public DateTime? LastUpdateDateTime { get; }
+        public string? LeagueName { get; }
+        public bool? MatchIsFinished { get; }
+        public IGroup? Group { get; }
+        public Team? Team1 { get; }
+        public Team? Team2 { get; }
+        public List<MatchResult>? MatchResults { get; }
+        public List<Goal>? Goals { get; }
         
         
        
         public MatchData(JObject info)
         {
+            string format = "MM/dd/yyyy HH:mm:ss";
+            CultureInfo provider = CultureInfo.InvariantCulture;
+
             MatchID = info["matchID"]?.ToObject<int>();
             LeagueID = info["leagueId"]?.ToObject<int>();
             LeagueSeason = info["leagueSeason"]?.ToObject<int>();
             if (NumberOfViewers.HasValue) { NumberOfViewers = info["numberOfViewers"]?.ToObject<int>(); }
-            MatchDateTime = info["matchDateTime"]?.ToObject<string>();
+
+            string? matchDateTimeString = info["matchDateTime"]?.ToObject<string>();
+            if (matchDateTimeString != null)
+            {
+                MatchDateTime = DateTime.ParseExact(matchDateTimeString, format, provider);
+            }
+
             TimeZoneID = info["timeZoneID"]?.ToObject<string>();
             LeagueName = info["leagueName"]?.ToObject<string>();
             LeagueShortcut = info["leagueShortcut"]?.ToObject<string>();
-            MatchDateTimeUTC = info["matchDateTimeUTC"]?.ToObject<string>();
-            LastUpdateDateTime = info["lastUpdateDateTime"]?.ToObject<string>();
+
+            string? matchDateTimeUTCString = info["matchDateTimeUTC"]?.ToObject<string>();
+            if (matchDateTimeUTCString != null)
+            {
+                MatchDateTimeUTC = DateTime.ParseExact(matchDateTimeUTCString, format, provider);
+            }
+
+            string? lastUpdateDateTimeString = info["lastUpdateDateTime"]?.ToObject<string>();
+            if (lastUpdateDateTimeString != null)
+            {
+                LastUpdateDateTime = DateTime.ParseExact(lastUpdateDateTimeString, format, provider);
+            }
+
             MatchIsFinished = info["matchIsFinished"]?.ToObject<bool>();           
             JToken groupInfo = info["group"]!;
             if (groupInfo.HasValues)

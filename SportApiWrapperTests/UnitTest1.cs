@@ -1,3 +1,4 @@
+
 using sportapiwrapper;
 using sportapiwrapper.Enums;
 using sportapiwrapper.InternalLogic;
@@ -31,7 +32,7 @@ namespace SportApiWrapperTests
         public void GetAvailableMatchDayDataTest()
         {
             string league = "bl1";
-            string year = "2018";
+            string year = "2023";
             string matchday = "1";
             ReturnStatus status;
             var matchData = SportsApi.GetAvailableMatchDayData(league, year, matchday, out status);
@@ -75,6 +76,16 @@ namespace SportApiWrapperTests
             string team2 = "40";
             ReturnStatus status;
             var twoclubsHistory = SportsApi.GetTwoClubsMatchHistory(team1, team2, out status);
+            Assert.Pass();
+        }
+
+        [Test]
+        public void GetAllAvailableMatchDataTest()
+        {
+            string league = "bl1";
+            string year = "2023";
+            ReturnStatus status;
+            var twoclubsHistory = SportsApi.GetAllAvailableMatchDayData(league, year, out status);
             Assert.Pass();
         }
     }

@@ -10,9 +10,9 @@ namespace sportapiwrapper.Models
 {
     public class GoalGetter
     {
-        int? GoalGetterId { get; }       
-        int? GoalCount { get; }
-        string? GoalGetterName { get; }
+        public int? GoalGetterId { get; }       
+        public int? GoalCount { get; }
+        public string? GoalGetterName { get; }
 
         /*
         "goalGetterId": 0,

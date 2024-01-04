@@ -8,18 +8,18 @@ using System.Threading.Tasks;
 
 namespace sportapiwrapper.Models
 {
-    internal class Goal
+    public class Goal
     {
-        int? GoalID { get; }
-        int? ScoreTeam1 { get; }
-        int? ScoreTeam2 { get; }
-        int? Matchminute { get; }
-        int? GoalGetterID { get; }
-        bool? IsPenalty { get; }
-        bool? IsOwnGoal { get; }
-        bool? IsOvertime { get; }
-        string? Comment { get; }
-        string? GoalGetterName { get; }
+        public int? GoalID { get; }
+        public int? ScoreTeam1 { get; }
+        public int? ScoreTeam2 { get; }
+        public int? Matchminute { get; }
+        public int? GoalGetterID { get; }
+        public bool? IsPenalty { get; }
+        public bool? IsOwnGoal { get; }
+        public bool? IsOvertime { get; }
+        public string? Comment { get; }
+        public string? GoalGetterName { get; }
 
         public Goal(JToken info) 
         {           

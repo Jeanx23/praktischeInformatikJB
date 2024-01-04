@@ -11,9 +11,9 @@ namespace sportapiwrapper.Models
 {
     public class IGroup
     {      
-        int? GroupOrderID { get; }
-        int? GroupID { get; }
-        string? GroupName { get; }
+        public int? GroupOrderID { get; }
+        public int? GroupID { get; }
+        public string? GroupName { get; }
 
         /*
         "groupName": "string",
