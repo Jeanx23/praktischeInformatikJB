@@ -24,7 +24,6 @@ namespace sportapiwrapper.InternalLogic
             string request = ApiURL + "/getavailablesports";
             return _webClient.GetAsync(request).Result;
         }
-        // /getmatchdaydata/{leagueShortcut}/{leagueSeason}/{groupOrderId}
         internal static HttpResponseMessage RequestMatchDayData(string league, string year, string matchday)        // gibt alle Relevanten Daten eines Spieltags zurück
         {
             string request = ApiURL + "/getmatchdata/" + league + "/" + year + "/" + matchday;
@@ -35,7 +34,6 @@ namespace sportapiwrapper.InternalLogic
             string request = ApiURL + "/getmatchdata/" + league + "/" + year;
             return _webClient.GetAsync(request).Result;
         }
-        // /getmatchdata/{teamId1}/{teamId2}
         internal static HttpResponseMessage RequestTwoClubsMatchHistory(string team1, string team2)
         {
             string request = ApiURL + "/getmatchdata/" + team1 + "/" + team2;                                       // gibt die Ergebnisse vergangener Duelle zweier Teams zurück
@@ -51,12 +49,10 @@ namespace sportapiwrapper.InternalLogic
             string request = ApiURL + "/getavailableteams/" + league + "/" + year; 
             return _webClient.GetAsync(request).Result;
         }
-
         internal static HttpResponseMessage RequestGoalGetters(string league, string year)
         {
             string request = ApiURL + "/getgoalgetters/" + league + "/" + year;
             return _webClient.GetAsync(request).Result;
         }
-
     }
 }

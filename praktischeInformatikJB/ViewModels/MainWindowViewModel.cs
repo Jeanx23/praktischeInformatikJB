@@ -104,7 +104,6 @@ namespace praktischeInformatikJB.ViewModels
             Matches = matchViewModels;
         }
 
-
         [RelayCommand]
         private void GetMatchesForSelectedMatchDay()
         {
@@ -119,8 +118,6 @@ namespace praktischeInformatikJB.ViewModels
             }
 
             List<MatchViewModel> matchViewModels = matchesOfOneMatchDay.Select(x => new MatchViewModel(x, League.LeagueShortcut)).ToList();
-
-            List<TeamViewModel> teamViewModels = matchesOfOneMatchDay.Select(x => new TeamViewModel(x)).ToList();
 
             Matches = matchViewModels;
         }        

@@ -194,28 +194,6 @@ namespace praktischeInformatikJB.ViewModels
           
         }
 
-        private (bool, bool) CheckConditions(MatchData match)
-        {            
-            bool calculateWithResult = false;
-            bool calculateWithGoals = false;
-
-            if (match.Goals.Count != 0 && match.MatchResults.Count != 0)
-            {
-                calculateWithGoals = true;
-            }
-            else if (match.Goals.Count != 0 && match.MatchResults.Count == 0)
-            {
-                calculateWithGoals = true;
-            }
-            else if (match.Goals.Count == 0 && match.MatchResults.Count != 0)
-            {
-                calculateWithResult = true;
-            }
-
-            return (calculateWithResult, calculateWithGoals);
-          
-        }
-
         // Methode zur Berechnung der Anzahl der Siege und Unentschieden
         private (double, double, double) CalculateWinsAndDraws(List<MatchData> matches, int permanentTeam1Id, int permanentTeam2Id, string leagueShortcut)
         {
@@ -254,7 +232,7 @@ namespace praktischeInformatikJB.ViewModels
 
             return (team1Win, team2Win, draw);
         }
-            
+
         public List<MatchData> FindGamesInHistory(List<MatchData> matchhistory) 
         {
             // Find the Berlin time zone
@@ -275,6 +253,7 @@ namespace praktischeInformatikJB.ViewModels
 
             return matchDataInHistory;
         }
+
         public double[,] CalculatePoissonProbabilityForResult(double lambda, double lambda2) // Berechnung der Poisson-Wahrscheinlichkeit für den Sieg einer Mannschaft
         {
             double[,] Probabilities = new double [4, 4];
@@ -315,6 +294,28 @@ namespace praktischeInformatikJB.ViewModels
 
             return result;
         }
-      
+
+        private (bool, bool) CheckConditions(MatchData match)
+        {
+            bool calculateWithResult = false;
+            bool calculateWithGoals = false;
+
+            if (match.Goals.Count != 0 && match.MatchResults.Count != 0)
+            {
+                calculateWithGoals = true;
+            }
+            else if (match.Goals.Count != 0 && match.MatchResults.Count == 0)
+            {
+                calculateWithGoals = true;
+            }
+            else if (match.Goals.Count == 0 && match.MatchResults.Count != 0)
+            {
+                calculateWithResult = true;
+            }
+
+            return (calculateWithResult, calculateWithGoals);
+
+        }
+
     }
 }
