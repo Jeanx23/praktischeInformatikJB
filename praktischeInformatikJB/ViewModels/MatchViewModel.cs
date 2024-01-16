@@ -39,7 +39,6 @@ namespace praktischeInformatikJB.ViewModels
 
         public MatchViewModel(MatchData match, string LeagueShortCut) // Es wird immer ein Match übergeben 
         {
-            // Find the Berlin time zone
             TimeZoneInfo berlinTimeZone = TimeZoneInfo.FindSystemTimeZoneById("Central European Standard Time");
 
             BerlinTime = TimeZoneInfo.ConvertTimeFromUtc(match.MatchDateTimeUTC.Value, berlinTimeZone);           
@@ -88,7 +87,6 @@ namespace praktischeInformatikJB.ViewModels
                 }
                 formattedResultStats.Add(formattedInnerList);
             }
-
             PoissonResults = formattedResultStats;
         }
 
@@ -316,6 +314,5 @@ namespace praktischeInformatikJB.ViewModels
             return (calculateWithResult, calculateWithGoals);
 
         }
-
     }
 }

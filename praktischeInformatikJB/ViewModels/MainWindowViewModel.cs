@@ -19,19 +19,19 @@ namespace praktischeInformatikJB.ViewModels
     public partial class MainWindowViewModel : ObservableObject // stellt veränderung fest und übernimmt diese
     {
         [ObservableProperty]
-        private List<MatchViewModel> matches; // Keine Observable List weil matches gleichzeitig geändert werden
+        private List<MatchViewModel> _matches; // Keine Observable List weil matches gleichzeitig geändert werden
 
         [ObservableProperty]
-        private League league;
+        private League _league;
 
         [ObservableProperty]
-        string matchday;
+        private string _matchday;
 
         [ObservableProperty]
-        private DateTime selectedDay;
+        private DateTime _selectedDay;
 
         [ObservableProperty]
-        private string selectedMatchDay;
+        private string _selectedMatchDay;
         
 
         partial void OnSelectedDayChanged(DateTime newDay)
@@ -49,7 +49,6 @@ namespace praktischeInformatikJB.ViewModels
             GetMatchesForSelectedMatchDayCommand.Execute(0);
         }
 
-        
         public List<League> AllLeagues { get; set; }
         public List<int> Numbers { get; set; }
         public MainWindowViewModel()
@@ -63,7 +62,7 @@ namespace praktischeInformatikJB.ViewModels
 
             AllLeagues = leagues;
 
-            matches = new();
+            _matches = new();
             League? bl1 = leagues.FirstOrDefault(x => x.LeagueID == 4608);
        
             if (bl1 != null)
@@ -71,34 +70,24 @@ namespace praktischeInformatikJB.ViewModels
                 League = bl1;
             }
 
-            SelectedDay = DateTime.Today;           
+            SelectedDay = DateTime.Today;          
             SelectedMatchDay = "1";
             Numbers = Enumerable.Range(1, 34).ToList();
-
         }
 
         [RelayCommand]
         private void GetMatchesForBundesligaToday()
         {
-            string year = "2023"; // DateTime.Now.Year.ToString(); 
+            string year = "2023";  
 
-            List<MatchData>? matches = SportsApi.GetAllAvailableMatchDayData(League.LeagueShortcut, year, out ReturnStatus status);
-            //List<MatchData>? matches = SportsApi.GetAllAvailableMatchDayData("bl1", year, out ReturnStatus status);
+            List<MatchData>? _matches = SportsApi.GetAllAvailableMatchDayData(League.LeagueShortcut, year, out ReturnStatus status);          
 
-            if (matches == null)
+            if (_matches == null)
             {
                 throw new Exception("Could not get match data");
             }
 
-            // Find the Berlin time zone
-            TimeZoneInfo berlinTimeZone = TimeZoneInfo.FindSystemTimeZoneById("Central European Standard Time");
-
-            // Convert the current UTC time to Berlin time
-            //DateTime utcNow = DateTime.UtcNow;
-            //DateTime berlinTime = TimeZoneInfo.ConvertTimeFromUtc(SelectedDay, berlinTimeZone).Date;
-
-            List<MatchData> matchesToday = matches.Where(x => x.MatchDateTimeUTC.Value.Date == SelectedDay).ToList();
-
+            List<MatchData> matchesToday = _matches.Where(x => x.MatchDateTimeUTC.Value.Date == SelectedDay).ToList();
             List<MatchViewModel> matchViewModels = matchesToday.Select(x => new MatchViewModel(x, League.LeagueShortcut)).ToList();
 
             Matches = matchViewModels;
@@ -107,12 +96,11 @@ namespace praktischeInformatikJB.ViewModels
         [RelayCommand]
         private void GetMatchesForSelectedMatchDay()
         {
-            //string year = DateTime.Now.Year.ToString();
             string year = "2023";
 
             List<MatchData>? matchesOfOneMatchDay = SportsApi.GetAvailableMatchDayData(League.LeagueShortcut, year, SelectedMatchDay, out ReturnStatus status); // 3 muss durch Variable Ersetzt werden - gibt den Spieltag an          
 
-            if (matches == null)
+            if (_matches == null)
             {
                 throw new Exception("Could not get match data");
             }
@@ -121,6 +109,5 @@ namespace praktischeInformatikJB.ViewModels
 
             Matches = matchViewModels;
         }        
-
     }
 }
