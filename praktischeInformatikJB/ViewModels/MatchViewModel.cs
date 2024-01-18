@@ -51,22 +51,15 @@ namespace praktischeInformatikJB.ViewModels
             TeamTwoPictureURL = match.Team2.TeamIconUrl;           
 
             DefineMatchResult(match);
-
             List<MatchData>? matchhistory = SportsApi.GetTwoClubsMatchHistory(TeamOneID, TeamTwoID, out ReturnStatus status);  
-
             List<MatchData>? matchDataInHistory =  FindGamesInHistory(matchhistory); //Eine Funktion die nur die Vergangenen Begegnungen mit Ergebnis ausgeben soll
-
-            double[] WinsPerTeam = CountWins(matchDataInHistory, match.Team1.TeamId, match.Team2.TeamId, LeagueShortCut); //Eine Funktion die anhand der Vergangenen Ergebnisse die Poisson Wahrscheinlichkeit für einen Sieg pro Team berechnet
-
-            double[,] ResultStats = AverageGoalsPerGame(matchDataInHistory, match.Team1.TeamId, match.Team2.TeamId, LeagueShortCut); // Eine Funktion die die wahrscheinlichkeit für ein bestimmtes ergebniss berechnet            
-
+            double[,] ResultStats = AverageGoalsPerGame(matchDataInHistory, match.Team1.TeamId, match.Team2.TeamId, LeagueShortCut); // Eine Funktion die die Wahrscheinlichkeit für ein bestimmtes Ergebniss berechnet            
             List<List<double>> resultStatsList = new List<List<double>>();
 
             for (int i = 0; i < ResultStats.GetLength(0); i++)
             {
                 List<double> innerList = new List<double>();
 
-                // Füge den Indexwert der Liste hinzu
                 innerList.Add(i); // Hier wird der Indexwert (i) hinzugefügt
 
                 for (int j = 0; j < ResultStats.GetLength(1); j++)
@@ -106,15 +99,7 @@ namespace praktischeInformatikJB.ViewModels
             }
         
             return (PointsTeam1, PointsTeam2);
-        }       
-        public double[] CountWins(List<MatchData> matches, int PermanentTeam1Id, int PermanentTeam2Id, string LeagueShortcut)
-        {           
-            var (winTeam1, winTeam2, draw) = CalculateWinsAndDraws(matches, PermanentTeam1Id, PermanentTeam2Id, LeagueShortcut);
-            double poissonTeam1Win = CalculatePoissonProbability(1, winTeam1);
-            double poissonTeam2Win = CalculatePoissonProbability(1, winTeam2);
-            double poissonDraw = CalculatePoissonProbability(1, draw);
-            return new double[] { poissonTeam1Win, poissonTeam2Win, poissonDraw};
-        } // Hauptmethode, um die Anzahl der Siege und Unentschieden für die Teams zu berechnen
+        }              
         public double[,] AverageGoalsPerGame(List<MatchData> matches, int PermanentTeam1Id, int PermanentTeam2Id, string LeagueShortcut) // Diese Funktion berechnet die durchnitschlichen Tore pro Spiel die 2 Manschafften gegeneinander hatten.
         {
             var (AvgGoalsTeam1, AvgGoalsTeam2) = CalculateAverageGoals(matches, PermanentTeam1Id, PermanentTeam2Id, LeagueShortcut);
@@ -123,29 +108,25 @@ namespace praktischeInformatikJB.ViewModels
         }
         private (double, double) CalculateAverageGoals(List<MatchData> matches, int permanentTeam1Id, int permanentTeam2Id, string leagueShortcut)
         {
-            double avgGoalsTeam1 = 0;
-            double avgGoalsTeam2 = 0;
             int allGoalsTeam1 = 0;
             int allGoalsTeam2 = 0;
 
             foreach (MatchData match in matches)
             {
-                var (calculateWithResults, calculateWithGoals) = CheckConditions(match);
-
-                if (match.LeagueShortcut == leagueShortcut && calculateWithGoals == true)
+                if (match.Goals.Count != 0)
                 {
                     var (goalsTeam1, goalsTeam2) = CalculateGoals(match, permanentTeam1Id, permanentTeam2Id);
 
                     allGoalsTeam1 = allGoalsTeam1 + goalsTeam1;
-                    allGoalsTeam2 = allGoalsTeam2 + goalsTeam2;                
-                }
+                    allGoalsTeam2 = allGoalsTeam2 + goalsTeam2;
+                }   
             }
-            avgGoalsTeam1 = (double)allGoalsTeam1 / (double)matches.Count;
-            avgGoalsTeam2 = (double)allGoalsTeam2 / (double)matches.Count;
+            double avgGoalsTeam1 = allGoalsTeam1 / (double)matches.Count;
+            double avgGoalsTeam2 = allGoalsTeam2 / (double)matches.Count;
 
             return (avgGoalsTeam1, avgGoalsTeam2);
         }
-        private (int, int) CalculateGoals(MatchData match, int permanentTeam1Id, int permanentTeam2Id)
+        private (int, int) CalculateGoals(MatchData match, int permanentTeam1Id, int permanentTeam2Id) //Methode zur Berechnung der Tore für die beiden Teams
         {
             int goalsTeam1 = 0;
             int goalsTeam2 = 0;
@@ -167,7 +148,6 @@ namespace praktischeInformatikJB.ViewModels
                     currentScoreTeam1 = goal.ScoreTeam2 ?? 0;
                     currentScoreTeam2 = goal.ScoreTeam1 ?? 0;
                 }
-
                 if (currentScoreTeam1 > previousScoreTeam1)
                 {
                     goalsTeam1++;
@@ -182,51 +162,10 @@ namespace praktischeInformatikJB.ViewModels
             }
                                    
                 return(goalsTeam1, goalsTeam2);
-
-        } //Methode zur Berechnung der Tore für die beiden Teams
-        private (double, double, double) CalculateWinsAndDraws(List<MatchData> matches, int permanentTeam1Id, int permanentTeam2Id, string leagueShortcut)
-        {
-            int winsTeam1 = 0;
-            int winsTeam2 = 0;
-            int draws = 0;
- 
-            foreach (MatchData match in matches)
-            {        
-
-                var (calculateWithResults, calculateWithGoals) = CheckConditions(match);
-              
-                if (match.LeagueShortcut == leagueShortcut && calculateWithGoals == true)
-                {
-
-                    var (goalsTeam1, goalsTeam2) = CalculateGoals(match, permanentTeam1Id, permanentTeam2Id);
-
-                    if (goalsTeam1 > goalsTeam2)
-                    {
-                        winsTeam1++;
-                    }
-                    else if (goalsTeam2 > goalsTeam1)
-                    {
-                        winsTeam2++;
-                    }
-                    else 
-                    {                      
-                        draws++;                                                               
-                    }
-                }
-            }
-
-            double team1Win = (double)winsTeam1 / (winsTeam1 + winsTeam2 + draws);
-            double team2Win = (double)winsTeam2 / (winsTeam1 + winsTeam2 + draws);
-            double draw = (double)draws / (winsTeam1 + winsTeam2 + draws);
-
-            return (team1Win, team2Win, draw);
-        } // Methode zur Berechnung der Anzahl der Siege und Unentschieden
+        } 
         public List<MatchData> FindGamesInHistory(List<MatchData> matchhistory) 
         {
-            // Find the Berlin time zone
             TimeZoneInfo berlinTimeZone = TimeZoneInfo.FindSystemTimeZoneById("Central European Standard Time");
-
-            // Convert the current UTC time to Berlin time
             DateTime utcNow = DateTime.UtcNow;
             DateTime berlinTime = TimeZoneInfo.ConvertTimeFromUtc(utcNow, berlinTimeZone).Date;
 
@@ -241,7 +180,7 @@ namespace praktischeInformatikJB.ViewModels
 
             return matchDataInHistory;
         }
-        public double[,] CalculatePoissonProbabilityForResult(double lambda, double lambda2) // Berechnung der Poisson-Wahrscheinlichkeit für den Sieg einer Mannschaft
+        public double[,] CalculatePoissonProbabilityForResult(double lambda, double lambda2) // Berechnung der Poisson-Wahrscheinlichkeit für ein bestimmtes Ergebnis
         {
             double[,] Probabilities = new double [4, 4];
 
@@ -258,7 +197,7 @@ namespace praktischeInformatikJB.ViewModels
 
             return Probabilities;
         }
-        public double CalculatePoissonProbability(int k, double lambda) // Berechnung der Poisson-Wahrscheinlichkeit für ein bestimmtes Ergebniss.
+        public double CalculatePoissonProbability(int k, double lambda) // Berechnung der Poisson-Wahrscheinlichkeit 
         {
             double numerator = Math.Exp(-lambda) * Math.Pow(lambda, k);
             double denominator = Factorial(k);
@@ -278,27 +217,6 @@ namespace praktischeInformatikJB.ViewModels
             }
 
             return result;
-        }
-        private (bool, bool) CheckConditions(MatchData match)
-        {
-            bool calculateWithResult = false;
-            bool calculateWithGoals = false;
-
-            if (match.Goals.Count != 0 && match.MatchResults.Count != 0)
-            {
-                calculateWithGoals = true;
-            }
-            else if (match.Goals.Count != 0 && match.MatchResults.Count == 0)
-            {
-                calculateWithGoals = true;
-            }
-            else if (match.Goals.Count == 0 && match.MatchResults.Count != 0)
-            {
-                calculateWithResult = true;
-            }
-
-            return (calculateWithResult, calculateWithGoals);
-
-        }
+        }       
     }
 }
