@@ -11,12 +11,6 @@ namespace sportapiwrapper.models
     {
         public int? SportID { get; }
         public string? SportName { get; }
-
-        /*  
-        "sportId": 0,
-        "sportName": "string"
-        */
-
         public Sport(JToken info)
         {
             SportID = info["sportId"]?.ToObject<int>();

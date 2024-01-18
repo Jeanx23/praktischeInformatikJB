@@ -14,6 +14,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using System.Windows.Threading;
 
 namespace praktischeInformatikJB
 {
@@ -23,27 +24,12 @@ namespace praktischeInformatikJB
     public partial class MainWindow : Window
     {
         private readonly MainWindowViewModel _viewModel;
-        private readonly SplashScreenWindow _splashScreen;
-
         public MainWindow()
         {
-            _splashScreen = new SplashScreenWindow();
-            _splashScreen.Show();
-
-            // Event-Handler für das Loaded-Event
-            Loaded += MainWindow_Loaded;
-
             _viewModel = new MainWindowViewModel();
-            this.DataContext = _viewModel;    
-            InitializeComponent();         
+            this.DataContext = _viewModel;
+            InitializeComponent();
         }
-        private void MainWindow_Loaded(object sender, RoutedEventArgs e)
-        {
-            // Entferne den Loaded-Event-Handler, um zu verhindern, dass er erneut aufgerufen wird
-            Loaded -= MainWindow_Loaded;
 
-            // Verstecke den Splash Screen, da _viewModel bereits initialisiert ist
-            _splashScreen.Close();
-        }
     }
 }

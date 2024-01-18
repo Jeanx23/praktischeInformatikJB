@@ -14,12 +14,6 @@ namespace sportapiwrapper.Models
         public int? GoalCount { get; }
         public string? GoalGetterName { get; }
 
-        /*
-        "goalGetterId": 0,
-        "goalGetterName": "string",
-        "goalCount": 0
-        */
-
         public GoalGetter(JObject info)
         {
             GoalGetterId = info["goalGetterId"]?.ToObject<int>();

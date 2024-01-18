@@ -15,12 +15,6 @@ namespace sportapiwrapper.Models
         public int? GroupID { get; }
         public string? GroupName { get; }
 
-        /*
-        "groupName": "string",
-        "groupOrderID": 0,
-        "groupID": 0
-        */
-
         public IGroup(JToken info)
         {
             GroupOrderID = info["groupOrderID"]?.ToObject<int>();

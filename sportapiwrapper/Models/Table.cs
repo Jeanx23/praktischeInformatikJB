@@ -23,21 +23,6 @@ namespace sportapiwrapper.Models
         int? Draw { get; }
         int? GoalDiff { get; }
 
-        /*
-        "teamInfoId": 0,
-        "teamName": "string",
-        "shortName": "string",
-        "teamIconUrl": "string",
-        "points": 0,
-        "opponentGoals": 0,
-        "goals": 0,
-        "matches": 0,
-        "won": 0,
-        "lost": 0,
-        "draw": 0,
-        "goalDiff": 0
-        */
-
         public Table(JObject info)
         {
             TeamInfoId = info["teamInfoId"]?.ToObject<int>();

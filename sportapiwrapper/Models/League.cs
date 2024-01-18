@@ -16,14 +16,6 @@ namespace sportapiwrapper.models
         public string? LeagueSeason { get; }
         public Sport? Sport { get; }
 
-        /* 
-        "leagueId": 3,
-        "leagueName": "1. Fußball-Bundesliga 2007/2008",
-        "leagueShortcut": "bl1",
-        "leagueSeason": "2007",
-        "sport": null
-        */
-
         public League(JObject info)
         {
             LeagueID = info["leagueId"]?.ToObject<int>();
