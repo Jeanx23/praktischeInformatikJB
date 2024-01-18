@@ -17,7 +17,6 @@ namespace sportapiwrapper.InternalLogic
     {
         public static List<League>? GetAvailableLeagues(out ReturnStatus statusCode)
         {
-            //string year = DateTime.Now.Year.ToString();
             string year = "2023";
 
             HttpResponseMessage response = ApiRequest.RequestAvailableLeagues();
@@ -33,7 +32,6 @@ namespace sportapiwrapper.InternalLogic
 
             List<League>? leagues = null;
             
-
             try
             {
                 leagues = SportsApiHelper.ParseLeagues(jsonArray);

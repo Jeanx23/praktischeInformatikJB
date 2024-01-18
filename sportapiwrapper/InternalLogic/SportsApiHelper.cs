@@ -31,7 +31,6 @@ namespace sportapiwrapper.InternalLogic
 
             return leagues;
         }        
-
         internal static List<Sport> ParseSports(JArray info)
         {
             List<Sport> sportTypes = new List<Sport>();
@@ -48,7 +47,6 @@ namespace sportapiwrapper.InternalLogic
 
             return sportTypes;
         }
-
         internal static List<MatchData> ParseMatchDayData(JArray info)
         {
             List<MatchData> matchDayData = new List<MatchData>();
@@ -64,8 +62,7 @@ namespace sportapiwrapper.InternalLogic
             }
 
             return matchDayData;
-        }
-       
+        }      
         internal static List<MatchData>? ParseMatchHistory(JArray info)
         {
             List<MatchData> matchHistory = new List<MatchData>();
@@ -82,7 +79,6 @@ namespace sportapiwrapper.InternalLogic
 
             return matchHistory;
         }
-
         internal static List<Table>? ParseTable(JArray info)
         {
             List<Table> leagueTable = new List<Table>();
@@ -99,7 +95,6 @@ namespace sportapiwrapper.InternalLogic
 
             return leagueTable;
         }
-
         internal static List<Team>? ParseTeam(JArray info)
         {
             List<Team> teams = new List<Team>();
@@ -116,7 +111,6 @@ namespace sportapiwrapper.InternalLogic
 
             return teams;
         }
-
         internal static List<GoalGetter>? ParseGoalGetters(JArray info)
         {
             List<GoalGetter> goalGetters = new List<GoalGetter>();

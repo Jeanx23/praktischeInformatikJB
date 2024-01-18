@@ -89,7 +89,6 @@ namespace praktischeInformatikJB.ViewModels
             }
             PoissonResults = formattedResultStats;
         }
-
         public (int?,int?) DefineMatchResult(MatchData match)
         {
             PointsTeam1 = null;
@@ -107,9 +106,7 @@ namespace praktischeInformatikJB.ViewModels
             }
         
             return (PointsTeam1, PointsTeam2);
-        }
-
-        // Hauptmethode, um die Anzahl der Siege und Unentschieden für die Teams zu berechnen
+        }       
         public double[] CountWins(List<MatchData> matches, int PermanentTeam1Id, int PermanentTeam2Id, string LeagueShortcut)
         {           
             var (winTeam1, winTeam2, draw) = CalculateWinsAndDraws(matches, PermanentTeam1Id, PermanentTeam2Id, LeagueShortcut);
@@ -117,15 +114,13 @@ namespace praktischeInformatikJB.ViewModels
             double poissonTeam2Win = CalculatePoissonProbability(1, winTeam2);
             double poissonDraw = CalculatePoissonProbability(1, draw);
             return new double[] { poissonTeam1Win, poissonTeam2Win, poissonDraw};
-        }
-
+        } // Hauptmethode, um die Anzahl der Siege und Unentschieden für die Teams zu berechnen
         public double[,] AverageGoalsPerGame(List<MatchData> matches, int PermanentTeam1Id, int PermanentTeam2Id, string LeagueShortcut) // Diese Funktion berechnet die durchnitschlichen Tore pro Spiel die 2 Manschafften gegeneinander hatten.
         {
             var (AvgGoalsTeam1, AvgGoalsTeam2) = CalculateAverageGoals(matches, PermanentTeam1Id, PermanentTeam2Id, LeagueShortcut);
             double[,] PoissonProbsForResults = CalculatePoissonProbabilityForResult(AvgGoalsTeam1, AvgGoalsTeam2);
             return PoissonProbsForResults;
         }
-
         private (double, double) CalculateAverageGoals(List<MatchData> matches, int permanentTeam1Id, int permanentTeam2Id, string leagueShortcut)
         {
             double avgGoalsTeam1 = 0;
@@ -150,8 +145,6 @@ namespace praktischeInformatikJB.ViewModels
 
             return (avgGoalsTeam1, avgGoalsTeam2);
         }
-
-        //Methode zur Berechnung der Tore für die beiden Teams
         private (int, int) CalculateGoals(MatchData match, int permanentTeam1Id, int permanentTeam2Id)
         {
             int goalsTeam1 = 0;
@@ -189,10 +182,8 @@ namespace praktischeInformatikJB.ViewModels
             }
                                    
                 return(goalsTeam1, goalsTeam2);
-          
-        }
 
-        // Methode zur Berechnung der Anzahl der Siege und Unentschieden
+        } //Methode zur Berechnung der Tore für die beiden Teams
         private (double, double, double) CalculateWinsAndDraws(List<MatchData> matches, int permanentTeam1Id, int permanentTeam2Id, string leagueShortcut)
         {
             int winsTeam1 = 0;
@@ -229,8 +220,7 @@ namespace praktischeInformatikJB.ViewModels
             double draw = (double)draws / (winsTeam1 + winsTeam2 + draws);
 
             return (team1Win, team2Win, draw);
-        }
-
+        } // Methode zur Berechnung der Anzahl der Siege und Unentschieden
         public List<MatchData> FindGamesInHistory(List<MatchData> matchhistory) 
         {
             // Find the Berlin time zone
@@ -251,7 +241,6 @@ namespace praktischeInformatikJB.ViewModels
 
             return matchDataInHistory;
         }
-
         public double[,] CalculatePoissonProbabilityForResult(double lambda, double lambda2) // Berechnung der Poisson-Wahrscheinlichkeit für den Sieg einer Mannschaft
         {
             double[,] Probabilities = new double [4, 4];
@@ -269,14 +258,12 @@ namespace praktischeInformatikJB.ViewModels
 
             return Probabilities;
         }
-
         public double CalculatePoissonProbability(int k, double lambda) // Berechnung der Poisson-Wahrscheinlichkeit für ein bestimmtes Ergebniss.
         {
             double numerator = Math.Exp(-lambda) * Math.Pow(lambda, k);
             double denominator = Factorial(k);
             return numerator / denominator;
         }
-
         public double Factorial(int n)
         {
             if (n == 0)
@@ -292,7 +279,6 @@ namespace praktischeInformatikJB.ViewModels
 
             return result;
         }
-
         private (bool, bool) CheckConditions(MatchData match)
         {
             bool calculateWithResult = false;
