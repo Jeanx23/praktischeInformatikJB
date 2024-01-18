@@ -13,39 +13,51 @@ using System.Runtime.CompilerServices;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
+using praktischeInformatikJB.Interfaces;
+using praktischeInformatikJB.Model;
+using praktischeInformatikJB.Enums;
 
 namespace praktischeInformatikJB.ViewModels
 {
-    public partial class MainWindowViewModel : ObservableObject // stellt veränderung fest und übernimmt diese
+    public partial class MainWindowViewModel : ObservableObject
     {
         [ObservableProperty]
-        private List<MatchViewModel> _matches; 
-        [ObservableProperty]
-        private League _league;
+        private List<MatchViewModel> _matches;
+
+        [ObservableProperty] 
+        private SelectionState _selectionState;
 
         [ObservableProperty]
-        private string _matchday;
-
-        [ObservableProperty]
-        private DateTime _selectedDay;
+        private DateTime _selectedDay = DateTime.Now;
 
         [ObservableProperty]
         private string _selectedMatchDay;
-        
+
+        public League League { get; }
+
+        private IFilter _currentFilter;
+        private IFilter CurrentFilter
+        {
+            get => _currentFilter;
+            set
+            {
+                _currentFilter = value;
+                Matches = _currentFilter.Filter();
+            } 
+        }
 
         partial void OnSelectedDayChanged(DateTime newDay)
         {
-            GetMatchesForBundesligaTodayCommand.Execute(0);
-        }
-
-        partial void OnLeagueChanged(League newLeague)
-        {           
-            GetMatchesForSelectedMatchDayCommand.Execute(0);
+            DateFilter newFilter = new DateFilter(League, newDay);
+            SelectionState = SelectionState.Calender;
+            CurrentFilter = newFilter;
         }
 
         partial void OnSelectedMatchDayChanged(string newMatchday)
         {
-            GetMatchesForSelectedMatchDayCommand.Execute(0);
+            MatchdayFilter newFilter = new MatchdayFilter(League, newMatchday);
+            SelectionState = SelectionState.MatchDay;
+            CurrentFilter = newFilter;
         }
 
         public List<League> AllLeagues { get; set; }
@@ -61,47 +73,16 @@ namespace praktischeInformatikJB.ViewModels
 
             AllLeagues = leagues;
             _matches = new();
-            League? bl1 = leagues.FirstOrDefault(x => x.LeagueID == 4608);
-       
-            if (bl1 != null)
+
+            League? bl1 = leagues.FirstOrDefault(x => x.LeagueID == Constants.LeagueIds.Bl1Id);
+
+            if (bl1 == null)
             {
-                League = bl1;
+                throw new Exception("Could not retrieve Bl1.");
             }
 
-            SelectedDay = DateTime.Today;          
-            SelectedMatchDay = "1";
+            League = bl1;
             Numbers = Enumerable.Range(1, 34).ToList();
         }
-
-        [RelayCommand]
-        private void GetMatchesForBundesligaToday()
-        {
-            string year = "2023";          
-            List<MatchData>? matches = SportsApi.GetAllAvailableMatchDayData(League.LeagueShortcut, year, out ReturnStatus status);          
-           
-            if (matches == null)
-            {
-                throw new Exception("Could not get match data");
-            }
-
-            List<MatchData> matchesToday = matches.Where(x => x.MatchDateTimeUTC.Value.Date == SelectedDay).ToList();
-            List<MatchViewModel> matchViewModels = matchesToday.Select(x => new MatchViewModel(x, League.LeagueShortcut)).ToList();
-            Matches = matchViewModels;
-        }
-
-        [RelayCommand]
-        private void GetMatchesForSelectedMatchDay()
-        {
-            string year = "2023";        
-            List<MatchData>? matchesOfOneMatchDay = SportsApi.GetAvailableMatchDayData(League.LeagueShortcut, year, SelectedMatchDay, out ReturnStatus status); // 3 muss durch Variable Ersetzt werden - gibt den Spieltag an          
-            
-            if (matchesOfOneMatchDay == null)
-            {
-                throw new Exception("Could not get match data");
-            }
-
-            List<MatchViewModel> matchViewModels = matchesOfOneMatchDay.Select(x => new MatchViewModel(x, League.LeagueShortcut)).ToList();
-            Matches = matchViewModels;
-        }        
     }
 }

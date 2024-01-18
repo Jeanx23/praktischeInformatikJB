@@ -30,6 +30,5 @@ namespace praktischeInformatikJB
             this.DataContext = _viewModel;
             InitializeComponent();
         }
-
     }
 }
