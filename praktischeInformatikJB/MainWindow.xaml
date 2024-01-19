@@ -84,7 +84,7 @@
                         </StackPanel>
                         
                         <StackPanel Grid.Column="1" VerticalAlignment="Center">
-                            <Label HorizontalAlignment="Center" Content="{Binding BerlinTime}"/>
+                            <Label HorizontalAlignment="Center" Content="{Binding BerlinTime, ConverterCulture=de-DE}" ContentStringFormat="{}{0:HH:mm}" />
                             <Grid>
                                 <Grid.ColumnDefinitions>
                                     <ColumnDefinition Width="*"/>

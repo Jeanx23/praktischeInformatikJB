@@ -40,9 +40,8 @@ namespace praktischeInformatikJB.ViewModels
         public MatchViewModel(MatchData match, string LeagueShortCut) // Es wird immer ein Match übergeben 
         {
             TimeZoneInfo berlinTimeZone = TimeZoneInfo.FindSystemTimeZoneById("Central European Standard Time");
-
             BerlinTime = TimeZoneInfo.ConvertTimeFromUtc(match.MatchDateTimeUTC.Value, berlinTimeZone);           
-
+            
             TeamOneID = match.Team1.TeamId.ToString(); //TeamID muss in der API abfrage ein string sein, auch wenn es laut dokumentation ein int ist, warum auch immer
             TeamTwoID = match.Team2.TeamId.ToString();
             TeamOne = match.Team1.TeamName;
