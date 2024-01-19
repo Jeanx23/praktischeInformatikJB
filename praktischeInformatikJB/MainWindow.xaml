@@ -5,11 +5,10 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:praktischeInformatikJB"
         xmlns:VM="clr-namespace:praktischeInformatikJB.ViewModels"
-        xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity" xmlns:local1="clr-namespace:praktischeInformatikJB.UserControls"
-        xmlns:z="clr-namespace:praktischeInformatikJB.UserControls"
+        xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity" 
         xmlns:converters="clr-namespace:praktischeInformatikJB.Converters"
         mc:Ignorable="d"
-        Title="Fußball Tippspiel" Height="450" Width="800">
+        Title="Fußball Tippanwendung" Height="450" Width="800">
 
     <Window.Resources>
         <converters:CalenderColorConverter x:Key="CalenderColorConverter"/>
@@ -52,15 +51,12 @@
                 <ComboBox Grid.Column="1" ItemsSource="{Binding Numbers}" SelectedItem="{Binding SelectedMatchDay}" Background="{Binding SortedByDate, Converter={StaticResource MatchDayColorConverter}}">
                 </ComboBox>
             </Grid>
-    
+
             <DatePicker Grid.Row="0" Grid.Column="4"
                         SelectedDate="{Binding SelectedDay}"
                         Foreground="{Binding SortedByDate, Converter={StaticResource CalenderColorConverter}}"/>
 
         </Grid>
-        <!--       
-        <z:MatchesUserControl Grid.Row="3" Grid.Column="1" Matches="{Binding Matches, Mode=TwoWay}" />
-        -->
         <ListBox Grid.Row="3" Grid.Column="1"
                  ItemsSource="{Binding Matches}">
             <ListBox.ItemContainerStyle>
