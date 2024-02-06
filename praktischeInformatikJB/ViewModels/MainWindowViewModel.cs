@@ -68,7 +68,7 @@ namespace praktischeInformatikJB.ViewModels
 
             if (leagues == null)
             {
-                throw new Exception("Could not retrieve league informatation.");
+                throw new Exception("Could not retrieve league information.");
             }
 
             AllLeagues = leagues;

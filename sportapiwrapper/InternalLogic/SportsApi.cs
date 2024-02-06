@@ -123,7 +123,7 @@ namespace sportapiwrapper.InternalLogic
 
             return matchDayData;
         }
-        public static List<MatchData>? GetTwoClubsMatchHistory(string team1, string team2,out ReturnStatus statusCode)
+        public static List<MatchData>? GetTwoClubsAllMatches(string team1, string team2,out ReturnStatus statusCode)
         {
             HttpResponseMessage response = ApiRequest.RequestTwoClubsMatchHistory(team1, team2);
             statusCode = (ReturnStatus)response.StatusCode;

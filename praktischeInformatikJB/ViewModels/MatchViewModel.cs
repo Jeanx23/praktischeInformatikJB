@@ -50,8 +50,8 @@ namespace praktischeInformatikJB.ViewModels
             TeamTwoPictureURL = match.Team2.TeamIconUrl;           
 
             DefineMatchResult(match);
-            List<MatchData>? matchhistory = SportsApi.GetTwoClubsMatchHistory(TeamOneID, TeamTwoID, out ReturnStatus status);  
-            List<MatchData>? matchDataInHistory =  FindGamesInHistory(matchhistory); //Eine Funktion die nur die Vergangenen Begegnungen mit Ergebnis ausgeben soll
+            List<MatchData>? matchesTwoClubs = SportsApi.GetTwoClubsAllMatches(TeamOneID, TeamTwoID, out ReturnStatus status);  
+            List<MatchData>? matchDataInHistory =  FindGamesInHistory(matchesTwoClubs); //Eine Funktion die nur die Vergangenen Begegnungen mit Ergebnis ausgeben soll
             double[,] ResultStats = AverageGoalsPerGame(matchDataInHistory, match.Team1.TeamId, match.Team2.TeamId, LeagueShortCut); // Eine Funktion die die Wahrscheinlichkeit für ein bestimmtes Ergebniss berechnet            
             List<List<double>> resultStatsList = new List<List<double>>();
 

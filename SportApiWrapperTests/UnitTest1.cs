@@ -70,12 +70,12 @@ namespace SportApiWrapperTests
         }
 
         [Test]
-        public void GetTwoClubsMatchHistoryTest()
+        public void GetTwoClubsAllMatchesTest()
         {
             string team1 = "6";
             string team2 = "40";
             ReturnStatus status;
-            var twoclubsHistory = SportsApi.GetTwoClubsMatchHistory(team1, team2, out status);
+            var twoclubsMatches = SportsApi.GetTwoClubsAllMatches(team1, team2, out status);
             Assert.Pass();
         }
 
@@ -85,7 +85,7 @@ namespace SportApiWrapperTests
             string league = "bl1";
             string year = "2023";
             ReturnStatus status;
-            var twoclubsHistory = SportsApi.GetAllAvailableMatchDayData(league, year, out status);
+            var matchdayData = SportsApi.GetAllAvailableMatchDayData(league, year, out status);
             Assert.Pass();
         }
     }

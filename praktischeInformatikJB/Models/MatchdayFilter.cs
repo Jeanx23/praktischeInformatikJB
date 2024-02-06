@@ -33,7 +33,7 @@ namespace praktischeInformatikJB.Model
             string year = "2023";
             string leagueShortcut = SelectedLeague.LeagueShortcut;
 
-            List<MatchData>? matchesOfOneMatchDay = SportsApi.GetAvailableMatchDayData(leagueShortcut, year, MatchDay, out ReturnStatus status); // 3 muss durch Variable Ersetzt werden - gibt den Spieltag an          
+            List<MatchData>? matchesOfOneMatchDay = SportsApi.GetAvailableMatchDayData(leagueShortcut, year, MatchDay, out ReturnStatus status); 
 
             if (matchesOfOneMatchDay == null)
             {
